@@ -255,23 +255,6 @@ After the fix, all reviews load cleanly into staging.
 6. **Run it.** Open `OlistBrazilEcommerce.SSIS.slnx` in Visual Studio and execute **`Controller.dtsx`**.
 7. **Query it.** Run `Analytical Queries.sql` against `DwOlist`.
 
----
-
-## Known Limitations & Next Steps
-
-- [ ] **`Fact_Reviews.sk_order` isn't populated.** The MERGE inserts only `sk_review` and `review_score`. Add `sk_order` so reviews can be joined to orders and categories.
-- [ ] **Uncategorized products are dropped from `Fact_Order_Items`.** The category lookup joins on the raw (`NULL`/empty) value, while the dimension stores "Unknown". Apply the same `ISNULL(NULLIF(...))` rule in the fact lookup.
-- [ ] **`Dim_Customer` history logic** re-inserts customers with an inactive version on every run, and doesn't track `valid_from`/`valid_to`. Upgrade it to a full SCD Type 2.
-- [ ] **The DDL file is out of sync** with the deployed schema (e.g. `bk_status` vs `order_status`, `freight_value int` vs `decimal`, `Shopping_limit_date`). Regenerate it from the database.
-- [ ] **Product physical attributes** (weight, dimensions) live in `Fact_Order_Items`. They belong in `Dim_Product`.
-- [ ] **Add a `Dim_Date`** for calendar analysis (year, month, weekday) instead of raw date columns.
-- [ ] **Use the geolocation file.** It's staged but unused. Olist has several lat/lng rows per zip prefix, so it needs aggregating before it can enrich `Dim_Customer` and `Dim_Sellers`.
-- [ ] **Parameterize connections** with SSIS project parameters/environments instead of hard-coded paths.
-- [ ] **Automate the reviews CSV cleanup** as a versioned Python script (or a Script Component) instead of a one-off step.
-- [ ] **Add logging and row-count reconciliation** (staging vs DW) to the pipeline.
-
----
-
 ## Author
 
 **Neto** — Data Scientist working with the Microsoft BI stack (SQL Server, SSIS, SSAS, Power BI), moving toward data engineering.

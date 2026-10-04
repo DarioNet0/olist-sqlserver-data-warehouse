@@ -1,0 +1,57 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/3/2026 11:45:00 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PC-DARIO"
+  DTS:CreatorName="PC-DARIO\dario"
+  DTS:DTSID="{D05168EC-FD1D-4957-9A97-4F947382A292}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Dim_Customer"
+  DTS:PackageType="5"
+  DTS:VersionGUID="{412EE9A0-F747-4157-B433-637F0987E277}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Merge Dim_Customer"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{33CEC648-4ADC-49FD-84EE-32533C50D949}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Dim_Customer"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C1419EA5-4198-41CA-8EF4-40D87A1725FD}"
+          SQLTask:SqlStatementSource="merge DwOlist.dbo.Dim_Customer as tgt&#xA;using (&#xA;&#xA;select &#xA;      c.customer_id                as bk_customer_id&#xA;    , c.customer_unique_id         as customer_unique_id&#xA;    , c.customer_zip_code_prefix   as customer_zip_code_prefix&#xA;    , c.customer_city              as customer_city&#xA;    , c.customer_state             as customer_state&#xA;    , 1                            as is_current&#xA;from &#xA;    olist.customers c&#xA;&#xA;) as src &#xA;    on tgt.bk_customer_id = src.bk_customer_id&#xA;&#xA;when matched &#xA;    and (&#xA;            tgt.customer_unique_id       is distinct from src.customer_unique_id&#xA;        or tgt.customer_zip_code_prefix  is distinct from src.customer_zip_code_prefix&#xA;        or tgt.customer_city             is distinct from src.customer_city&#xA;        or tgt.customer_state            is distinct from src.customer_state&#xA;        or tgt.is_current                is distinct from src.is_current&#xA;    )&#xA;then update set is_current = 0&#xA;&#xA;when not matched then &#xA;    insert(&#xA;          bk_customer_id&#xA;        , customer_unique_id&#xA;        , customer_zip_code_prefix&#xA;        , customer_city&#xA;        , customer_state&#xA;        , is_current&#xA;    )&#xA;    values (&#xA;         src.bk_customer_id&#xA;        , src.customer_unique_id&#xA;        , src.customer_zip_code_prefix&#xA;        , src.customer_city&#xA;        , src.customer_state&#xA;        , src.is_current&#xA;    );&#xA;&#xA;&#xA;insert into DwOlist.dbo.Dim_Customer (&#xA;      bk_customer_id&#xA;    , customer_unique_id&#xA;    , customer_zip_code_prefix&#xA;    , customer_city&#xA;    , customer_state&#xA;    , is_current&#xA;)&#xA;select &#xA;    *&#xA;from &#xA;    (&#xA;        select &#xA;              c.customer_id                as bk_customer_id&#xA;            , c.customer_unique_id         as customer_unique_id&#xA;            , c.customer_zip_code_prefix   as customer_zip_code_prefix&#xA;            , c.customer_city              as customer_city&#xA;            , c.customer_state             as customer_state&#xA;            , 1                            as is_current&#xA;        from &#xA;            olist.customers c&#xA;        where  exists (&#xA;            select &#xA;                1 &#xA;            from &#xA;                DwOlist.dbo.Dim_Customer dc&#xA;            where &#xA;                dc.bk_customer_Id = c.customer_id&#xA;                and dc.is_current = 0&#xA;        )&#xA;    ) as src" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Merge Dim_Customer"
+          TopLeft="100,60" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

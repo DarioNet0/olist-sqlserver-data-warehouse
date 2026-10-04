@@ -1,0 +1,57 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/3/2026 11:45:00 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PC-DARIO"
+  DTS:CreatorName="PC-DARIO\dario"
+  DTS:DTSID="{51368AB0-5FEE-4503-B7E3-DC7837DE6706}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Fact_Payments"
+  DTS:PackageType="5"
+  DTS:VersionGUID="{3F475D45-BADF-4B72-9CAE-2712E0839A1D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Merge Fact_Payments"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{31D3AE3E-BC8A-4EEC-8586-36BF01E32446}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Fact_Payments"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C1419EA5-4198-41CA-8EF4-40D87A1725FD}"
+          SQLTask:SqlStatementSource="merge DwOlist.dbo.Fact_Payments as tgt&#xA;using (&#xA;&#xA;select &#xA;      do.sk_order             as sk_order&#xA;    , dpt.sk_payment_type     as sk_payment_type&#xA;    , op.payment_sequential   as payment_sequential&#xA;    , op.payment_installments as payment_installments&#xA;    , op.payment_value        as payment_value &#xA;from &#xA;    olist.order_payments op&#xA;&#xA;    inner join DwOlist.dbo.Dim_Payment_Type dpt&#xA;        on op.payment_type = dpt.payment_type&#xA;&#xA;    inner join DwOlist.dbo.Dim_Order do&#xA;        on do.bk_order_id = op.order_id&#xA;&#xA;) as src&#xA;    on tgt.sk_order            = src.sk_order&#xA;    and tgt.payment_sequential = src.payment_sequential&#xA;&#xA;when matched &#xA;    and (&#xA;           tgt.sk_payment_type      is distinct from src.sk_payment_type&#xA;        or tgt.payment_installments is distinct from src.payment_installments&#xA;        or tgt.payment_value        is distinct from src.payment_value&#xA;    )&#xA;    then update set &#xA;          tgt.sk_payment_type      = src.sk_payment_type&#xA;        , tgt.payment_installments = src.payment_installments&#xA;        , tgt.payment_value        = src.payment_value&#xA;when not matched then &#xA;    insert (&#xA;          sk_order&#xA;        , sk_payment_type&#xA;        , payment_sequential&#xA;        , payment_installments&#xA;        , payment_value      &#xA;    )&#xA;    values(&#xA;          src.sk_order&#xA;        , src.sk_payment_type&#xA;        , src.payment_sequential&#xA;        , src.payment_installments&#xA;        , src.payment_value&#xA;    );" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Merge Fact_Payments"
+          TopLeft="100,60" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

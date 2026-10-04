@@ -1,0 +1,57 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/3/2026 11:45:00 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PC-DARIO"
+  DTS:CreatorName="PC-DARIO\dario"
+  DTS:DTSID="{96FE30E6-AC89-4E47-8010-E3B541E9ADB3}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Dim_Order"
+  DTS:PackageType="5"
+  DTS:VersionGUID="{9C1BFDFD-FF5E-4E4B-B37A-9A167DA666DC}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Merge Dim_Order"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A20EEBDA-69B5-4B21-8CB5-02A55E35CDF6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Dim_Order"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C1419EA5-4198-41CA-8EF4-40D87A1725FD}"
+          SQLTask:SqlStatementSource="merge DwOlist.dbo.Dim_Order as tgt &#xA;using (&#xA;&#xA;select  &#xA;      order_id                                                  as bk_order_id&#xA;    , isnull(&#xA;        try_convert(datetime, order_purchase_timestamp, 101),&#xA;        cast('' as datetime)&#xA;    )                                                           as order_purchase_timestamp&#xA;    , isnull(&#xA;        try_convert(datetime, order_approved_at, 101),&#xA;        cast('' as datetime)&#xA;    )                                                           as order_approved_at&#xA;    , isnull(&#xA;        try_convert(date, order_deliver_carrier_date, 101),&#xA;        cast('' as date)&#xA;    )                                                           as order_deliver_carrier_date&#xA;    , isnull(&#xA;        try_convert(date, order_delivered_customer_date, 101),&#xA;        cast('' as date)&#xA;    )                                                           as order_delivered_customer_date&#xA;    , isnull(&#xA;        try_convert(date, order_estimated_delivery_date, 101),&#xA;        cast('' as date)&#xA;    )                                                           as order_estimated_delivery_date&#xA;from &#xA;    olist.orders&#xA;&#xA;) as src &#xA;    on tgt.bk_order_id = src.bk_order_id&#xA;&#xA;when matched &#xA;    and (&#xA;           tgt.order_purchase_timestamp      is distinct from src.order_purchase_timestamp&#xA;        or tgt.order_approved_at             is distinct from src.order_approved_at&#xA;        or tgt.order_deliver_carrier_date    is distinct from src.order_deliver_carrier_date&#xA;        or tgt.order_delivered_customer_date is distinct from src.order_delivered_customer_date&#xA;        or tgt.order_estimated_delivery_date is distinct from src.order_estimated_delivery_date   &#xA;    )&#xA;    then update set &#xA;          tgt.order_purchase_timestamp      = src.order_purchase_timestamp&#xA;        , tgt.order_approved_at             = src.order_approved_at&#xA;        , tgt.order_deliver_carrier_date    = src.order_deliver_carrier_date&#xA;        , tgt.order_delivered_customer_date = src.order_delivered_customer_date&#xA;        , tgt.order_estimated_delivery_date = src.order_estimated_delivery_date&#xA;&#xA;when not matched then &#xA;    insert (&#xA;          bk_order_id&#xA;        , order_purchase_timestamp&#xA;        , order_approved_at&#xA;        , order_deliver_carrier_date&#xA;        , order_delivered_customer_date&#xA;        , order_estimated_delivery_date&#xA;    ) &#xA;    values (&#xA;          src.bk_order_id&#xA;        , src.order_purchase_timestamp&#xA;        , src.order_approved_at&#xA;        , src.order_deliver_carrier_date&#xA;        , src.order_delivered_customer_date&#xA;        , src.order_estimated_delivery_date&#xA;    );" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Merge Dim_Order"
+          TopLeft="100,60" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

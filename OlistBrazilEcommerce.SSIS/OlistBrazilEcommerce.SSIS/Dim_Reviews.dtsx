@@ -1,0 +1,57 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/3/2026 11:45:00 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PC-DARIO"
+  DTS:CreatorName="PC-DARIO\dario"
+  DTS:DTSID="{BFC9B269-0078-487F-AE41-CE8A24DABECE}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Dim_Reviews"
+  DTS:PackageType="5"
+  DTS:VersionGUID="{3A4939B3-59B7-4C0E-B8A9-861F6956F5BA}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Merge Dim_Reviews"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{30DB9705-08EC-428F-879D-FB3D6E9ADAB2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Dim_Reviews"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C1419EA5-4198-41CA-8EF4-40D87A1725FD}"
+          SQLTask:SqlStatementSource="merge DwOlist.dbo.Dim_Reviews as tgt&#xA;using (&#xA;&#xA;select &#xA;     review_id                                              as bk_review_id&#xA;    , isnull(review_comment_title, 'Not Provided')          as review_comment_title&#xA;    , isnull(review_content_message, 'Not Provided')        as review_content_message&#xA;    , review_creation_date                                  as review_creation_date&#xA;    , isnull(review_answer_timestamp, cast('' as datetime)) as review_answer_timestamp&#xA;    , review_score                                          as review_score&#xA;&#xA;from &#xA;    olist.order_reviews&#xA;&#xA;) as src &#xA;    on tgt.bk_review_id = src.bk_review_id&#xA;&#xA;when matched &#xA;    and (&#xA;           tgt.review_comment_title    is distinct from src.review_comment_title&#xA;        or tgt.review_content_message  is distinct from src.review_content_message&#xA;        or tgt.review_creation_date    is distinct from src.review_creation_date&#xA;        or tgt.review_answer_timestamp is distinct from src.review_answer_timestamp&#xA;        or tgt.review_score            is distinct from src.review_score  &#xA;    )&#xA;    then update set &#xA;              tgt.review_comment_title    = src.review_comment_title&#xA;            , tgt.review_content_message  = src.review_content_message&#xA;            , tgt.review_creation_date    = src.review_creation_date&#xA;            , tgt.review_answer_timestamp = src.review_answer_timestamp&#xA;            , tgt.review_score            = src.review_score  &#xA;&#xA;when not matched then &#xA;    insert (&#xA;          bk_review_id&#xA;        , review_comment_title&#xA;        , review_content_message&#xA;        , review_creation_date&#xA;        , review_answer_timestamp&#xA;        , review_score      &#xA;    ) &#xA;    values (&#xA;          src.bk_review_id&#xA;        , src.review_comment_title&#xA;        , src.review_content_message&#xA;        , src.review_creation_date&#xA;        , src.review_answer_timestamp&#xA;        , src.review_score&#xA;    );" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Merge Dim_Reviews"
+          TopLeft="100,60" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

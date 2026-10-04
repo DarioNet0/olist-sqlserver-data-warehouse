@@ -1,0 +1,57 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/3/2026 11:45:00 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PC-DARIO"
+  DTS:CreatorName="PC-DARIO\dario"
+  DTS:DTSID="{31D6BD01-85BD-4949-8153-96C729FEF4C4}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Fact_Order_Items"
+  DTS:PackageType="5"
+  DTS:VersionGUID="{02C5CE61-A720-4F27-A725-E0994CDA7D17}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Merge Fact_Order_Items"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{F126190F-24A1-4129-B1B6-95BF904ACCB3}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Fact_Order_Items"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C1419EA5-4198-41CA-8EF4-40D87A1725FD}"
+          SQLTask:SqlStatementSource="merge DwOlist.dbo.Fact_Order_Items as tgt&#xA;using(&#xA;&#xA;select&#xA;      do.sk_order                          as sk_order&#xA;    , oi.order_item_id                     as order_item_id&#xA;    , ds.sk_status                         as sk_status&#xA;    , dc.sk_customer                       as sk_customer&#xA;    , dp.sk_product                        as sk_product&#xA;    , dcat.Sk_Category                     as Sk_Category&#xA;    , dsell.Sk_Seller                      as Sk_Seller&#xA;    , p.product_weight_g                   as product_weight_g&#xA;    , p.prodcut_lenght_cm                  as prodcut_lenght_cm&#xA;    , p.product_height_cm                  as product_height_cm&#xA;    , p.product_width_cm                   as product_width_cm&#xA;    , oi.price                             as price&#xA;    , oi.freight_value                     as freight_value&#xA;    , cast(oi.shipping_limit_date as date) as Shopping_limit_date&#xA;from &#xA;    olist.orders o&#xA;&#xA;    inner join olist.order_items oi &#xA;        on o.order_id = oi.order_id&#xA;    &#xA;    inner join DwOlist.dbo.Dim_Order do&#xA;        on do.bk_order_id = o.order_id&#xA;&#xA;    inner join DwOlist.dbo.Dim_Status ds&#xA;        on ds.order_status = o.order_status&#xA;&#xA;    inner join DwOlist.dbo.Dim_Customer dc&#xA;        on dc.bk_customer_Id = o.customer_id&#xA;&#xA;    inner join DwOlist.dbo.Dim_Product dp&#xA;        on dp.Bk_Product_Id = oi.product_id&#xA;    &#xA;    inner join olist.products p&#xA;        on oi.product_id = p.product_id&#xA;&#xA;    inner join DwOlist.dbo.Dim_Category dcat&#xA;        on dcat.product_category_name = p.product_category_name&#xA;&#xA;    inner join DwOlist.dbo.Dim_Sellers dsell&#xA;        on dsell.Bk_Seller_id = oi.seller_id &#xA;&#xA;) as src &#xA;    on tgt.sk_order       = src.sk_order&#xA;    and tgt.order_item_id = src.order_item_id&#xA;&#xA;when matched &#xA;    and (&#xA;           tgt.sk_status           is distinct from src.sk_status&#xA;        or tgt.sk_customer         is distinct from src.sk_customer&#xA;        or tgt.sk_product          is distinct from src.sk_product&#xA;        or tgt.Sk_Category         is distinct from src.Sk_Category&#xA;        or tgt.Sk_Seller           is distinct from src.Sk_Seller&#xA;        or tgt.product_weight_g    is distinct from src.product_weight_g&#xA;        or tgt.product_lenght_cm   is distinct from src.prodcut_lenght_cm&#xA;        or tgt.product_height_cm   is distinct from src.product_height_cm&#xA;        or tgt.product_width_cm    is distinct from src.product_width_cm&#xA;        or tgt.price               is distinct from src.price&#xA;        or tgt.freight_value       is distinct from src.freight_value&#xA;        or tgt.Shopping_limit_date is distinct from src.Shopping_limit_date&#xA;    ) &#xA;    then update set &#xA;          tgt.sk_status           = src.sk_status&#xA;        , tgt.sk_customer         = src.sk_customer&#xA;        , tgt.Sk_Category         = src.Sk_Category&#xA;        , tgt.Sk_Seller           = src.Sk_Seller&#xA;        , tgt.product_weight_g    = src.product_weight_g&#xA;        , tgt.product_lenght_cm   = src.prodcut_lenght_cm&#xA;        , tgt.product_height_cm   = src.product_height_cm&#xA;        , tgt.product_width_cm    = src.product_width_cm&#xA;        , tgt.price               = src.price&#xA;        , tgt.freight_value       = src.freight_value&#xA;        , tgt.Shopping_limit_date = src.Shopping_limit_date&#xA;        , tgt.sk_product          = src.sk_product&#xA;&#xA;when not matched then &#xA;    insert (&#xA;          sk_order&#xA;        , sk_status&#xA;        , sk_customer&#xA;        , sk_product&#xA;        , sk_category&#xA;        , sk_seller&#xA;        , product_weight_g&#xA;        , product_lenght_cm&#xA;        , product_height_cm&#xA;        , product_width_cm&#xA;        , price&#xA;        , freight_value&#xA;        , Shopping_limit_date  &#xA;        , order_item_id&#xA;    )&#xA;    values (&#xA;          src.sk_order&#xA;        , src.sk_status&#xA;        , src.sk_customer&#xA;        , src.sk_product&#xA;        , src.sk_category&#xA;        , src.sk_seller&#xA;        , src.product_weight_g&#xA;        , src.prodcut_lenght_cm&#xA;        , src.product_height_cm&#xA;        , src.product_width_cm&#xA;        , src.price&#xA;        , src.freight_value&#xA;        , src.Shopping_limit_date&#xA;        , src.order_item_id&#xA;    );" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Merge Fact_Order_Items"
+          TopLeft="100,60" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,13 @@
+# Visual Studio / SSIS build output
+.vs/
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# Source data (download from Kaggle)
+Datasets/*.csv
+
+# Local scratch folders
+_backup_svg_*/
+_svg_preview/

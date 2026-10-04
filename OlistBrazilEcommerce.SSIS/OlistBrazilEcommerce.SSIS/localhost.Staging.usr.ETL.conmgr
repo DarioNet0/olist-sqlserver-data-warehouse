@@ -1,0 +1,16 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="localhost.Staging.usr.ETL"
+  DTS:DTSID="{C1419EA5-4198-41CA-8EF4-40D87A1725FD}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=localhost;User ID=usr.ETL;Initial Catalog=Staging;Provider=MSOLEDBSQL19.1;Persist Security Info=True;Auto Translate=False;Application Name=SSIS-Package1-{C1419EA5-4198-41CA-8EF4-40D87A1725FD}localhost.Staging.usr.ETL;Trust Server Certificate=True;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAJcU4wUPVAkGkyymVkdDkqAAAAAACAAAAAAAQZgAAAAEAACAAAADDlgeTXhVEJI/9i4XS1Z6+81N8wWGySw15kceBycGQ7wAAAAAOgAAAAAIAACAAAAC3cVUmnbv86xb0QWJfON4Z+BIkZvaBdvTJEOrUVzkLb5AAAAD2PrBrH637Tdg3DyArZ4cNYPVhPe1Px5Oirc13HDfvBsrBOGWlxTZxdHspNJX37CPUxfMDvgugIMKMVm7Dfi2QD4SD2ocjUoHB2GPCoeFxDkoq2R51gm+I9ND56uJC+CjKFMueYlj6PX+0aN97J1vtbNOtRJdU8XAEx7i3rgkGv0TZyUMw4ryDKl5mZc3gI+pAAAAA7D7pZyO4benB4zuE2bUWzeQSTCzkNt/8PWUuvjq4WCJQ3lmQiaV/FKS7XXiG6B5Hz/2UkZW//LW8ekaG28X4bg==</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

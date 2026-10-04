@@ -1,0 +1,57 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/3/2026 11:45:00 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PC-DARIO"
+  DTS:CreatorName="PC-DARIO\dario"
+  DTS:DTSID="{24FB9437-B896-4FC4-A313-7868C4F60E70}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Dim_Product"
+  DTS:PackageType="5"
+  DTS:VersionGUID="{AC60365B-8C90-4EEC-AD23-AD10BD5A74FF}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Merge Dim_Product"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{960D4E1B-F46B-48DF-9B04-C93BB2AC3EE4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Dim_Product"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C1419EA5-4198-41CA-8EF4-40D87A1725FD}"
+          SQLTask:SqlStatementSource="merge DwOlist.dbo.Dim_Product as tgt &#xA;using (&#xA;&#xA;select &#xA;      product_id                     as bk_product_id                 &#xA;    , isnull(try_convert(int, nullif(product_name_lenght, '')), 0)          as product_name_lenght&#xA;    , isnull(try_convert(int, nullif(product_description_lenght, '')), 0)   as product_description_lenght&#xA;    , isnull(try_convert(int, nullif(product_photos_qty, '')), 0)           as product_photos_qty&#xA;from &#xA;    olist.products&#xA;&#xA;) as src &#xA;    on tgt.bk_product_id = src.bk_product_id&#xA;&#xA;when matched &#xA;    and (&#xA;           tgt.product_name_lenght        is distinct from src.product_name_lenght&#xA;        or tgt.product_description_lenght is distinct from src.product_description_lenght&#xA;        or tgt.product_photos_qty         is distinct from src.product_photos_qty  &#xA;    )&#xA;    then update set &#xA;          tgt.product_name_lenght        = src.product_name_lenght&#xA;        , tgt.product_description_lenght = src.product_description_lenght&#xA;        , tgt.product_photos_qty         = src.product_photos_qty&#xA;&#xA;when not matched then &#xA;    insert (&#xA;          bk_product_id&#xA;        , product_name_lenght&#xA;        , product_description_lenght&#xA;        , product_photos_qty    &#xA;    )&#xA;    values (&#xA;          src.bk_product_id&#xA;        , src.product_name_lenght&#xA;        , src.product_description_lenght&#xA;        , src.product_photos_qty&#xA;    );" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Merge Dim_Product"
+          TopLeft="100,60" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
